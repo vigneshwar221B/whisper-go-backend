@@ -13,6 +13,7 @@ import (
 
 func IsAuthorized(endpoint http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
 		fmt.Println(r.Header)
 		fmt.Println()
 		if r.Header["Token"] != nil {
@@ -39,6 +40,11 @@ func IsAuthorized(endpoint http.Handler) http.Handler {
 
 //SaveUser is for '/register' post
 func SaveUser(w http.ResponseWriter, r *http.Request) {
+	//Allow CORS here By * or specific origin
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	decoder := json.NewDecoder(r.Body)
 
 	var t model.Register
@@ -79,6 +85,7 @@ func SaveUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func FindUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	decoder := json.NewDecoder(r.Body)
 
 	var t model.Login
@@ -117,6 +124,7 @@ func FindUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddPost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	decoder := json.NewDecoder(r.Body)
 
 	var t model.Post
@@ -131,6 +139,7 @@ func AddPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllPosts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	posts := db.GetAllPostsDB()
 
 	json.NewEncoder(w).Encode(posts)

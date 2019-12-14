@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"web-app/model"
-
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -50,6 +50,7 @@ func AddNewPostDB(obj model.Post) {
 
 	post.Body = obj.Body
 	post.Title = obj.Title
+	post.ID = primitive.NewObjectID()
 
 	insertResult, err := postsCollection.InsertOne(context.TODO(), post)
 	if err != nil {
